@@ -1,0 +1,28 @@
+name: lint
+run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+on:
+  pull_request:
+    paths:
+      - .github/workflows/lint.yaml
+      - "**/*.go"
+      - .golangci.yaml
+jobs:
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Build
+        run: go build ./...
+      - name: Golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: v1.55.2
+          args: --allow-parallel-runners

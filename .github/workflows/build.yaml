@@ -1,0 +1,30 @@
+name: build
+run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
+on:
+  pull_request:
+    paths:
+      - .github/workflows/build.yaml
+      - "**/**.go"
+      - go.mod
+      - go.sum
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Build Go
+        run: go build -v ./...
+      - name: Setup aqua
+        uses: aquaproj/aqua-installer@v2.1.2
+        with:
+          aqua_version: v2.9.0
+      - name: Install ko
+        run: ${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin/aqua install -t ko
+      - name: Build Container Image
+        working-directory: ./cmd/api
+        run: ko publish --local .
