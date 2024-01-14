@@ -1,4 +1,4 @@
-name: e2e test
+name: test e2e
 run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
 on:
   pull_request:
@@ -40,7 +40,7 @@ jobs:
       - name: Test e2e
         env:
           ENDPOINT: http://localhost:8080
-        run: go test ./e2e/...
+        run: go test ./test/e2e/...
       - name: Shutdown
         if: always()
         run: |

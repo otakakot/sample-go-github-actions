@@ -1,4 +1,4 @@
-name: integration test
+name: test integration
 run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
 on:
   pull_request:
@@ -31,4 +31,4 @@ jobs:
       - name: Test integration
         env:
           POSTGRES_URL: postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable
-        run: go test ./integration/...
+        run: go test ./test/integration/...
