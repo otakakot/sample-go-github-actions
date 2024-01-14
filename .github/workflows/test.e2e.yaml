@@ -1,0 +1,47 @@
+name: e2e test
+run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
+on:
+  pull_request:
+    paths:
+      - .github/workflows/test.e2e.yaml
+      - "**/*.go"
+      - go.mod
+      - go.sum
+jobs:
+  e2e:
+    runs-on: ubuntu-22.04
+    services:
+      postgres:
+        image: postgres:16.1
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Run api
+        id: api
+        env:
+          PORT: "8080"
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable
+        run: |
+          go run cmd/api/main.go &
+          echo API_PID=$! >> $GITHUB_OUTPUT
+          sleep 20
+      - name: Test e2e
+        env:
+          ENDPOINT: http://localhost:8080
+        run: go test ./e2e/...
+      - name: Shutdown
+        if: always()
+        run: |
+          kill ${{ steps.api.outputs.API_PID }}
