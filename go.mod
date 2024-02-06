@@ -1,6 +1,6 @@
 module github.com/otakakot/sample-go-github-actions
 
-go 1.21.6
+go 1.22.0
 
 require github.com/jackc/pgx/v5 v5.5.2
 
