@@ -2,7 +2,7 @@ module github.com/otakakot/sample-go-github-actions
 
 go 1.22.1
 
-require github.com/jackc/pgx/v5 v5.5.4
+require github.com/jackc/pgx/v5 v5.5.5
 
 require (
 	github.com/jackc/pgpassfile v1.0.0 // indirect
