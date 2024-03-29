@@ -2,6 +2,8 @@ name: test e2e
 run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
 on:
   pull_request:
+    branches:
+      - main
     paths:
       - .github/workflows/test.e2e.yaml
       - "**/*.go"
