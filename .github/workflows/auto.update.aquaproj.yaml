@@ -8,7 +8,7 @@ on:
       - opened
 jobs:
   auto-merge:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     if: ${{ github.head_ref == 'renovate/aquaproj' }}
     steps:
       - name: Check branch
