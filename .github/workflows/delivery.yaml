@@ -24,7 +24,8 @@ jobs:
         run: ko login --username ${{ github.actor }} --password ${{ secrets.PAT }} ghcr.io
       - name: Build Container Image
         working-directory: ./cmd/api
-        run: |
-            KO_DOCKER_REPO=ghcr.io/${{ github.repository }} \
-            SOURCE_DATE_EPOCH=$(date +%s) \
-            ko build --sbom=none --bare --tags=$(git rev-parse --short HEAD),latest . --platform=linux/amd64
+        env:
+          KO_DOCKER_REPO: ghcr.io/${{ github.repository }}
+          SOURCE_DATE_EPOCH: $(date +%s)
+          VERSION: $(git rev-parse --short HEAD)
+        run: ko build --sbom=none --bare --tags=${{ env.VERSION }},latest . --platform=linux/amd64
