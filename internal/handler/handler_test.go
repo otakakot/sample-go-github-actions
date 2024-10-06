@@ -32,14 +32,16 @@ func TestHealth(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
+
 			handler.Health(tt.args.w, tt.args.r)
 			checkedGot, ok := tt.args.w.(*httptest.ResponseRecorder)
+
 			if !ok {
 				t.Fatalf("failed to cast w to *httptest.ResponseRecorder")
 			}
+
 			if got := checkedGot.Body.String(); got != tt.want {
 				t.Errorf("Health() = %v, want %v", got, tt.want)
 			}

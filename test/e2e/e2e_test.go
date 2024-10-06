@@ -2,7 +2,6 @@ package e2e_test
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"os"
 	"testing"
@@ -19,7 +18,7 @@ func TestE2E(t *testing.T) {
 	t.Run("e2e_test", func(t *testing.T) {
 		t.Parallel()
 
-		req, err := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/health", endpoint), nil)
+		req, err := http.NewRequest(http.MethodGet, endpoint+"/health", nil)
 		if err != nil {
 			t.Fatal(err)
 		}

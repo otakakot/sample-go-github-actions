@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
@@ -26,7 +25,7 @@ func main() {
 	const timeout = 30
 
 	server := &http.Server{
-		Addr:              fmt.Sprintf(":%s", port),
+		Addr:              ":" + port,
 		Handler:           hdl,
 		ReadHeaderTimeout: timeout * time.Second,
 	}
