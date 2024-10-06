@@ -1,6 +1,7 @@
 package integration_test
 
 import (
+	"cmp"
 	"context"
 	"os"
 	"testing"
@@ -11,11 +12,7 @@ import (
 func TestIntegration(t *testing.T) {
 	t.Parallel()
 
-	dsn := os.Getenv("POSTGRES_URL")
-
-	if dsn == "" {
-		dsn = "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
-	}
+	dsn := cmp.Or(os.Getenv("POSTGRES_URL"), "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable")
 
 	db, err := postgres.New(dsn)
 	if err != nil {

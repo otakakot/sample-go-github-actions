@@ -1,6 +1,7 @@
 package e2e_test
 
 import (
+	"cmp"
 	"context"
 	"net/http"
 	"os"
@@ -10,10 +11,7 @@ import (
 func TestE2E(t *testing.T) {
 	t.Parallel()
 
-	endpoint := os.Getenv("ENDPOINT")
-	if endpoint == "" {
-		endpoint = "http://localhost:8080"
-	}
+	endpoint := cmp.Or(os.Getenv("ENDPOINT"), "http://localhost:8080")
 
 	t.Run("e2e_test", func(t *testing.T) {
 		t.Parallel()

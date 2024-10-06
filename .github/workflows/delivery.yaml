@@ -1,0 +1,33 @@
+name: delivery
+run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
+on:
+    workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+      - name: Build Go
+        run: go build -v ./...
+      - name: Setup aqua
+        uses: aquaproj/aqua-installer@v3.0.0
+        with:
+          aqua_version: v2.25.2
+      - name: Install ko
+        run: ${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin/aqua install -t ko
+      - name: Login ko
+        run: ko login --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} ghcr.io
+      - name: Add version
+        working-directory: ./cmd/api
+        run: yq e '.builds[0].ldflags += "-X main.version=$(git rev-parse --short HEAD)"' -i .ko.yaml
+      - name: Build Container Image
+        working-directory: ./cmd/api
+        run: |
+            KO_DOCKER_REPO=ghcr.io/${{ github.repository }} \
+            SOURCE_DATE_EPOCH=$(date +%s) \
+            ko build --sbom=none --bare --tags=$(git rev-parse --short HEAD),latest . --platform=linux/amd64

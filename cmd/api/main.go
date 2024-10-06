@@ -1,6 +1,7 @@
 package main
 
 import (
+	"cmp"
 	"context"
 	"errors"
 	"log/slog"
@@ -12,15 +13,17 @@ import (
 	"github.com/otakakot/sample-go-github-actions/internal/handler"
 )
 
+var version string
+
 func main() {
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
+	port := cmp.Or(os.Getenv("PORT"), "8080")
 
 	hdl := http.NewServeMux()
 
 	hdl.HandleFunc("/health", handler.Health)
+	hdl.HandleFunc("/version", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(version))
+	})
 
 	const timeout = 30
 
@@ -31,7 +34,7 @@ func main() {
 	}
 
 	go func() {
-		slog.Info("Server is starting...")
+		slog.Info("server is starting...")
 
 		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			panic(err)
@@ -41,7 +44,7 @@ func main() {
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
-	slog.Info("Server is shutting down...")
+	slog.Info("server is shutting down...")
 
 	ctx, cancel := context.WithTimeout(context.Background(), timeout*time.Second)
 	defer cancel()
@@ -50,5 +53,5 @@ func main() {
 		panic(err)
 	}
 
-	slog.Info("Server exiting")
+	slog.Info("server exiting")
 }
