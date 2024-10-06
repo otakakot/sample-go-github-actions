@@ -21,11 +21,6 @@ lint: ## go lint ref. https://golangci-lint.run/
 
 .PHONY: mod
 mod: ## go mod tidy & go mod vendor
-	@go mod tidy
-	@go mod vendor
-
-.PHONY: update
-update: ## go modules update
 	@go get -u -t ./...
 	@go mod tidy
 	@go mod vendor
