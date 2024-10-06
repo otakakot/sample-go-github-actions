@@ -21,7 +21,7 @@ jobs:
       - name: Install ko
         run: ${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin/aqua install -t ko
       - name: Login ko
-        run: ko login --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} ghcr.io
+        run: ko login --username ${{ github.actor }} --password ${{ secrets.PAT }} ghcr.io
     #   - name: Add version
     #     working-directory: ./cmd/api
     #     run: yq e '.builds[0].ldflags += "-X main.version=$(git rev-parse --short HEAD)"' -i .ko.yaml
