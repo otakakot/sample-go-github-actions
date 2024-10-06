@@ -25,7 +25,8 @@ jobs:
       - name: Build Container Image
         working-directory: ./cmd/api
         env:
-          KO_DOCKER_REPO: ghcr.io/${{ github.repository }}
-          SOURCE_DATE_EPOCH: $(date +%s)
           VERSION: $(git rev-parse --short HEAD)
-        run: ko build --sbom=none --bare --tags=${{ env.VERSION }},latest . --platform=linux/amd64
+        run: |
+            KO_DOCKER_REPO=ghcr.io/${{ github.repository }} \
+            SOURCE_DATE_EPOCH=$(date +%s) \
+            ko build --sbom=none --bare --tags=${{ env.VERSION }},latest . --platform=linux/amd64
