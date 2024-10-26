@@ -44,7 +44,7 @@ jobs:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable
         run: |
           go run cmd/api/main.go &
-          echo API_PID=$! >> $GITHUB_OUTPUT
+          echo API_PID=$! >> "$GITHUB_OUTPUT"
           sleep 20
       - name: Test e2e
         env:

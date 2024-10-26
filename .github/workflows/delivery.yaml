@@ -26,7 +26,7 @@ jobs:
         with:
           aqua_version: v2.25.2
       - name: Install ko
-        run: ${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin/aqua install -t ko
+        run: ${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin/aqua install --tags ko
       - name: Login ko
         run: ko login --username ${{ github.actor }} --password ${{ secrets.PAT }} ghcr.io
       - name: Build Container Image
@@ -35,4 +35,4 @@ jobs:
           VERSION=$(git rev-parse --short HEAD) \
           KO_DOCKER_REPO=ghcr.io/${{ github.repository }} \
           SOURCE_DATE_EPOCH=$(date +%s) \
-          ko build --sbom=none --bare --tags=$(git rev-parse --short HEAD),latest . --platform=linux/amd64
+          ko build --sbom=none --bare --tags="$(git rev-parse --short HEAD)",latest . --platform=linux/amd64

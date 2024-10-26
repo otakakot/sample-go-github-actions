@@ -33,7 +33,7 @@ jobs:
         with:
           aqua_version: v2.25.2
       - name: Install ko
-        run: ${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin/aqua install -t ko
+        run: ${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin/aqua install --tags ko
       - name: Build Container Image
         working-directory: ./cmd/api
         run: ko publish --local .
