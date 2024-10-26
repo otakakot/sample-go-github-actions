@@ -1,5 +1,8 @@
 name: delivery
 run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
 on:
   workflow_dispatch:
 jobs:
