@@ -6,7 +6,7 @@ concurrency:
 on:
   workflow_dispatch:
 jobs:
-  build:
+  delivery:
     runs-on: ubuntu-latest
     defaults:
       run:
