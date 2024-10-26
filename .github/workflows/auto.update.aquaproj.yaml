@@ -1,3 +1,5 @@
+# aquaproj の更新をオートマージするためのワークフロー
+---
 name: auto update aquaproj
 run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
 on:

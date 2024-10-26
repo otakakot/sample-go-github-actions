@@ -1,3 +1,5 @@
+# Go コードを E2E テストを通じて検証するワークフロー
+---
 name: test e2e
 run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
 concurrency:

@@ -1,3 +1,5 @@
+# Go コードの静的解析を行うワークフロー
+---
 name: lint
 run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
 concurrency:
