@@ -9,6 +9,10 @@ on:
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    timeout-minutes: 5
     if: ${{ github.head_ref == 'renovate/go-1.x' || github.head_ref == 'renovate/golang-1.x' }}
     steps:
       - name: Generate token

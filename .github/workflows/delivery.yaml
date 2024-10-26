@@ -1,10 +1,14 @@
 name: delivery
 run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
 on:
-    workflow_dispatch:
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    timeout-minutes: 5
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,7 +29,7 @@ jobs:
       - name: Build Container Image
         working-directory: ./cmd/api
         run: |
-            VERSION=$(git rev-parse --short HEAD) \
-            KO_DOCKER_REPO=ghcr.io/${{ github.repository }} \
-            SOURCE_DATE_EPOCH=$(date +%s) \
-            ko build --sbom=none --bare --tags=$(git rev-parse --short HEAD),latest . --platform=linux/amd64
+          VERSION=$(git rev-parse --short HEAD) \
+          KO_DOCKER_REPO=ghcr.io/${{ github.repository }} \
+          SOURCE_DATE_EPOCH=$(date +%s) \
+          ko build --sbom=none --bare --tags=$(git rev-parse --short HEAD),latest . --platform=linux/amd64
