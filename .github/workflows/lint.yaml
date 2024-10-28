@@ -1,5 +1,3 @@
-# Go コードの静的解析を行うワークフロー
----
 name: lint
 run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
 concurrency:
@@ -13,12 +11,12 @@ on:
       - .github/workflows/lint.yaml
       - "**/*.go"
       - .golangci.yaml
+defaults:
+  run:
+    shell: bash
 jobs:
   lint:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
     timeout-minutes: 5
     steps:
       - name: Checkout

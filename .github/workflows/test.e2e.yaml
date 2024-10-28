@@ -1,5 +1,3 @@
-# Go コードを E2E テストを通じて検証するワークフロー
----
 name: test e2e
 run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
 concurrency:
@@ -14,12 +12,12 @@ on:
       - "**/*.go"
       - go.mod
       - go.sum
+defaults:
+  run:
+    shell: bash
 jobs:
   e2e:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
     timeout-minutes: 5
     services:
       postgres:

@@ -1,5 +1,3 @@
-# Go コードをインテグレーションテストを通じて検証するワークフロー
----
 name: test integration
 run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
 concurrency:
@@ -14,12 +12,12 @@ on:
       - "**/*.go"
       - go.mod
       - go.sum
+defaults:
+  run:
+    shell: bash
 jobs:
   integration:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
     timeout-minutes: 5
     services:
       postgres:

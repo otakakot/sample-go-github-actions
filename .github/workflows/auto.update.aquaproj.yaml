@@ -1,5 +1,3 @@
-# aquaproj の更新をオートマージするためのワークフロー
----
 name: auto update aquaproj
 run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
 on:
@@ -8,12 +6,12 @@ on:
       - main
     types:
       - opened
+defaults:
+  run:
+    shell: bash
 jobs:
   auto-merge:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
     timeout-minutes: 5
     if: ${{ github.head_ref == 'renovate/aquaproj' }}
     steps:
