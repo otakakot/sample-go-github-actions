@@ -13,7 +13,7 @@ jobs:
   auto-merge:
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    if: ${{ github.head_ref == 'renovate/aquaproj' }}
+    if: ${{ startsWith( github.head_ref , 'renovate') }}
     steps:
       - name: Generate token
         id: generate-token
