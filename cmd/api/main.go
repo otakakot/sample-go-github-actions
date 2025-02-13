@@ -21,8 +21,8 @@ func main() {
 	hdl := http.NewServeMux()
 
 	hdl.HandleFunc("/health", handler.Health)
-	hdl.HandleFunc("/version", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(version))
+	hdl.HandleFunc("/version", func(w http.ResponseWriter, _ *http.Request) {
+		_, _ = w.Write([]byte(version))
 	})
 
 	const timeout = 30

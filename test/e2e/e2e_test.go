@@ -2,7 +2,6 @@ package e2e_test
 
 import (
 	"cmp"
-	"context"
 	"net/http"
 	"os"
 	"testing"
@@ -21,7 +20,7 @@ func TestE2E(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		ctx := context.Background()
+		ctx := t.Context()
 
 		res, err := http.DefaultClient.Do(req.WithContext(ctx))
 		if err != nil {

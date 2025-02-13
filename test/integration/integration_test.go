@@ -2,7 +2,6 @@ package integration_test
 
 import (
 	"cmp"
-	"context"
 	"os"
 	"testing"
 
@@ -22,7 +21,7 @@ func TestIntegration(t *testing.T) {
 	t.Run("integration_test", func(t *testing.T) {
 		t.Parallel()
 
-		if _, err := db.ExecContext(context.Background(), "SELECT 1"); err != nil {
+		if _, err := db.ExecContext(t.Context(), "SELECT 1"); err != nil {
 			t.Errorf("failed to exec database: %v", err)
 		}
 	})

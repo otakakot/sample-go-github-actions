@@ -13,10 +13,8 @@ linters:
     - wastedassign # disable because because of generics
     - contextcheck # https://github.com/golangci/golangci-lint/issues/3711
     - depguard # disable because know how to use it
-    # deprecated
-    - execinquery # deprecated (since v1.58.0) due to: The repository of the linter has been archived by the owner.  
-    - gomnd # deprecated (since v1.58.0) due to: The linter has been renamed. Replaced by mnd.
-    - exportloopref # deprecated (since v1.60.2) due to: Since Go1.22 (loopvar) this linter is no longer relevant. Replaced by copyloopvar.
+    # deprecated 
+    - tenv # deprecated (since v1.64.0) due to: Duplicate feature another linter. Replaced by usetesting.
 issues:
   exclude-dirs:
     - pkg
