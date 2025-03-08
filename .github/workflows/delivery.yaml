@@ -30,7 +30,7 @@ jobs:
           PATH: "${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
         run: aqua install --tags ko
       - name: Login ko
-        run: ko login --username ${{ github.actor }} --password ${{ secrets.PAT }} ghcr.io
+        run: ko login --username ${{ github.repository_owner }} --password ${{ secrets.PAT }} ghcr.io
       - name: Build Container Image
         working-directory: ./cmd/api
         run: |
