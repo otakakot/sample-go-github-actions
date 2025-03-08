@@ -38,4 +38,6 @@ jobs:
         run: aqua install --tags ko
       - name: Build Container Image
         working-directory: ./cmd/api
+        env:
+          VERSION: scan
         run: ko publish --local .
