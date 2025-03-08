@@ -10,6 +10,7 @@ help: ## display this help screen
 .PHONY: tool
 tool: ## install tool
 	@aqua install
+	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 
 .PHONY: build
 build: ## go build
@@ -21,7 +22,7 @@ fmt: ## go format
 
 .PHONY: lint
 lint: ## go lint ref. https://golangci-lint.run/
-	@go tool golangci-lint run ./... --fix
+	@golangci-lint run ./... --fix
 
 .PHONY: module
 module: ## go modules and update
