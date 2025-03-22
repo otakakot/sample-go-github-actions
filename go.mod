@@ -2,7 +2,7 @@ module github.com/otakakot/sample-go-github-actions
 
 go 1.24.1
 
-require github.com/jackc/pgx/v5 v5.7.2
+require github.com/jackc/pgx/v5 v5.7.3
 
 require (
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
