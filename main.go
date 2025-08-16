@@ -2,16 +2,17 @@ package main
 
 import (
 	"fmt"
-	"os"
+	"runtime/debug"
 )
 
-const version = "1.0.0"
+var version string
 
 func main() {
-	for _, arg := range os.Args[1:] {
-		if arg == "-v" || arg == "-version" {
-			fmt.Printf("sample-go-github-actions version %s\n", version)
-			os.Exit(0)
+	if version == "" {
+		if bi, ok := debug.ReadBuildInfo(); ok {
+			version = bi.Main.Version
 		}
 	}
+
+	fmt.Printf("sample-go-github-actions version %s\n", version)
 }
