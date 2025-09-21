@@ -36,7 +36,8 @@ func main() {
 	go func() {
 		slog.Info("server is starting...")
 
-		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+		err := server.ListenAndServe()
+		if err != nil && !errors.Is(err, http.ErrServerClosed) {
 			panic(err)
 		}
 	}()
@@ -49,7 +50,8 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout*time.Second)
 	defer cancel()
 
-	if err := server.Shutdown(ctx); err != nil {
+	err := server.Shutdown(ctx)
+	if err != nil {
 		panic(err)
 	}
 

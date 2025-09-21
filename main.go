@@ -14,5 +14,5 @@ func main() {
 		}
 	}
 
-	fmt.Printf("sample-go-github-actions version %s\n", version)
+	fmt.Printf("sample-go-github-actions version %s\n", version) //nolint:forbidigo
 }

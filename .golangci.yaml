@@ -9,6 +9,8 @@ linters:
     - sqlclosecheck
     - wastedassign
     - wrapcheck
+    - wsl
+    - noinlineerr
   settings:
     varnamelen:
       min-name-length: 1

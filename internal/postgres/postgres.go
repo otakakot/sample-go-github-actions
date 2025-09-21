@@ -19,7 +19,7 @@ func New(
 
 	db := stdlib.OpenDBFromPool(pool)
 
-	if err := db.Ping(); err != nil {
+	if err := db.PingContext(context.Background()); err != nil {
 		return nil, fmt.Errorf("failed to ping database: %w", err)
 	}
 
