@@ -8,6 +8,9 @@ on:
 defaults:
   run:
     shell: bash
+permissions:
+  contents: read
+  packages: write
 jobs:
   delivery:
     runs-on: ubuntu-latest
@@ -29,8 +32,12 @@ jobs:
         env:
           PATH: "${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
         run: aqua install --tags ko
-      - name: Login ko
-        run: ko login --username ${{ github.repository_owner }} --password ${{ secrets.PAT }} ghcr.io
+      - name: Login to GHCR
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build Container Image
         working-directory: ./cmd/api
         run: |
