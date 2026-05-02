@@ -1,0 +1,43 @@
+name: build
+run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/build.yaml
+      - "**/**.go"
+      - go.mod
+      - go.sum
+defaults:
+  run:
+    shell: bash
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - name: Setup Go
+        uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00 # v6.0.0
+        with:
+          go-version-file: go.mod
+      - name: Build Go
+        run: go build -v ./...
+      - name: Setup aqua
+        uses: aquaproj/aqua-installer@ea518c135a02fc11ff8024364510c181a5c6b342 # v4.0.3
+        with:
+          aqua_version: v2.44.0
+      - name: Install ko
+        env:
+          PATH: "${AQUA_ROOT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/aquaproj-aqua}/bin:$PATH"
+        run: aqua install --tags ko
+      - name: Build Container Image
+        working-directory: ./cmd/api
+        env:
+          VERSION: scan
+        run: ko publish --local .

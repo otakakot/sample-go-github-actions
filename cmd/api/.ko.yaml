@@ -1,0 +1,12 @@
+builds:
+  - id: api
+    dir: .
+    main: ./
+    env:
+      - GOOS=linux
+      - GOARCH=amd64
+      # https://christina04.hatenablog.com/entry/installsuffix-cgo-is-no-longer-required
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w
+      - -X main.version={{.Env.VERSION}}

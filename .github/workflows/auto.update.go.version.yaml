@@ -1,0 +1,27 @@
+name: auto update go version
+run-name: ${{ github.ref_name }} by @${{ github.actor }} ${{ github.workflow }}
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+defaults:
+  run:
+    shell: bash
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: ${{ github.head_ref == 'renovate/go-1.x' || github.head_ref == 'renovate/golang-1.x' }}
+    steps:
+      - name: Generate token
+        id: generate-token
+        uses: actions/create-github-app-token@67018539274d69449ef7c02e8e71183d1719ab42 # v2.1.4
+        with:
+          app-id: ${{ vars.BOT_GITHUB_APP_ID }}
+          private-key: ${{ secrets.BOT_GITHUB_APP_PRIVATE_KEY }}
+      - name: Auto merge
+        uses: otakakot/github-actions/composite/auto-merge@main
+        with:
+          github-token: ${{ steps.generate-token.outputs.token }}
